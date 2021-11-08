@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route, NavLink, Redirect } from "react-router-dom";
 
-import { routes } from "../01-lazyload/routes/routes";
+import { routes } from "./routes";
 import logo from "../logo.svg";
 
 export const Navigation = ()=> { 
@@ -18,7 +18,6 @@ export const Navigation = ()=> {
                 <li key={route.id}>
                   <NavLink 
                     activeClassName="nav-active" 
-                    exact 
                     to={route.path}>
                     {route.name}
                   </NavLink>
