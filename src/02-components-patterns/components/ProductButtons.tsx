@@ -1,4 +1,4 @@
-import { useContext, CSSProperties } from 'react';
+import { useContext, CSSProperties, useCallback } from 'react';
 import { ProductContext } from "./ProductCard";
 import styles from "../styles/styles.module.css";
 
@@ -9,7 +9,15 @@ export interface Props{
 
 export const ProductButtons = ({className,style}:Props) => {
 
-  const {counter, increaseBy} = useContext(ProductContext);
+  const {counter, increaseBy, maxCount} = useContext(ProductContext);
+
+  const isMaxRached = useCallback(
+    //doble negacion !! para q si es undefined se convierta en booleano y retorne false
+    // y si maxCount tiene un valor sera true y evalura a la condicion y si se cumple retorna true
+    () => !!maxCount && counter === maxCount,
+    
+    [counter, maxCount],
+  )
 
   return (
     <div style={style} className={`${styles.buttonsContainer} ${className}`}>
@@ -17,7 +25,7 @@ export const ProductButtons = ({className,style}:Props) => {
           -
         </button>
         <div className={styles.countLabel}> { counter }</div>
-        <button className={styles.buttonAdd} onClick={() => increaseBy(1)}>
+        <button className={`${styles.buttonAdd} ${ isMaxRached() && styles.disabled}`} onClick={() => increaseBy(1)}>
           +
         </button>
     </div>
